@@ -3,14 +3,31 @@ let wins = 0;
 let losses = 0;
 let ties = 0;
 
-// make a player function
+// get querySelectors 
 
-function playerChoice() {
-    const options = ['rock', 'paper', 'scissors'];
-    const choice = options[Math.floor(Math.random() * options.length)];
-    console.log("player chose: " + choice);
-    return choice;
-}
+const score = document.querySelector("#score");
+const displayWinner = document.querySelector("#displayWinner");
+const body = document.querySelector("body");
+
+// add event listener to buttons
+
+const rock = document.querySelector('#rock');
+
+rock.addEventListener('click', () => {
+    playRound("rock");
+})
+
+const paper = document.querySelector('#paper');
+
+paper.addEventListener('click', () => {
+    playRound("paper");
+})
+
+const scissors = document.querySelector('#scissors');
+
+scissors.addEventListener('click', () => {
+    playRound("scissors");
+})
 
 // make a computer object
 
@@ -72,27 +89,35 @@ function findWinner(player, computer) {
 
 // play one round
 
-function playRound() {
-    console.log(findWinner(playerChoice(), computerChoice()));
+function playRound(choice) {
 
-}
+    let playerChoice = choice;
 
-function game() {
-    for (let i = 0; i < 5; i++) {
-        playRound();
+    displayWinner.textContent = findWinner(playerChoice, computerChoice());
+    
+    score.textContent = (wins + " - " + losses);
+
+    // end the game if someone hits 5
+
+    if (wins == 5) {
+        body.style.backgroundColor = "green";
+        body.style.color = "black";
+        score.textContent = (wins + " - " + losses);
+    
+        rock.remove();
+        paper.remove();
+        scissors.remove();
+    
+    } 
+    
+    if (losses == 5) {
+        body.style.backgroundColor = "red";
+        body.style.color = "black";
+        score.textContent = (wins + " - " + losses);
+    
+        rock.remove();
+        paper.remove();
+        scissors.remove();
     }
 
-    console.log("wins: " + wins);
-    console.log("losses: " + losses);
-    console.log("ties: " + ties);
-
-    if (wins > losses) {
-        console.log("you win");
-    } else if (losses > wins) {
-        console.log("you lose");
-    } else {
-        console.log("you tie!");
-    }
 }
-
-game();
